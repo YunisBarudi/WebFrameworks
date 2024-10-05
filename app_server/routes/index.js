@@ -1,12 +1,20 @@
-
 const express = require('express');
 const router = express.Router();
-const ctrlLocations = require('../controllers/locations.js');
-const ctrlOthers = require('../controllers/others.js');
+
 /* Locations pages */
-router.get('/', ctrlLocations.homelist);
-router.get('/location', ctrlLocations.locationInfo);
-router.get('/location/review/new', ctrlLocations.addReview);
+router.get('/', (req, res) => {
+  res.render('index', { currentPath: req.path });
+});
+router.get('/location', (req, res) => {
+  res.render('location', { currentPath: req.path });
+});
+router.get('/location/review/new', (req, res) => {
+  res.render('review-new', { currentPath: req.path });
+});
+
 /* Other pages */
-router.get('/about', ctrlOthers.about);
+router.get('/about', (req, res) => {
+  res.render('about', { currentPath: req.path });
+});
+
 module.exports = router;

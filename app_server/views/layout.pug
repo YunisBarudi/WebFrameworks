@@ -11,17 +11,102 @@ html
       .container
         button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarMain')
           span.navbar-toggler-icon
-        a.navbar-brand(href='/ ') Loc8r
+        a.navbar-brand(href='/') Fanclub
         #navbarMain.navbar-collapse.collapse
           ul.navbar-nav.mr-auto
             li.nav-item
-              a.nav-link(href='/about/') About 
-    .container
+              a.nav-link(href='/') Home
+            li.nav-item
+              a.nav-link(href='/about/') About
+          ul.navbar-nav.ml-auto
+            li.nav-item.pd-2
+              a.nav-link(data-toggle='modal', data-target='#loginModal') Log In
+            li.nav-item
+              a.nav-link(data-toggle='modal', data-target='#registerModal') Register
+    
+    .content
       block content
-      footer
+    
+    footer.footer.bg-dark.text-white
+      .container
         .row
-          .col-12
-            small &copy; Simon Holmes 2017
-    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
-    script(src='/javascripts/bootstrap.min.js')
+          .col-md-4
+            h5 Fan Club Connect
+            p This website is a fan club for fans of the band Fanclub. We are not affiliated with the band in any way.
+          .col-md-4
+            h5 Our Social Media
+            ul.list-unstyled
+              li
+                a.i.fa.fa-facebook(href='#')
+              li
+                a.i.fa.fa-linkedin(href='#')
+              li
+                a.i.fa.fa-instagram(href='#')
+          .col-md-4
+            h5 Contact
+            p
+              i.fa.fa-envelope
+              |  email@example.com
+            p
+              i.fa.fa-phone
+              |  +1 234 567 890
+        .text-center
+          | © 2024 Fanclub Connect
+          
+    script(src='https://code.jquery.com/jquery-3.6.0.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+          event.preventDefault(); 
+          window.location.href = '/location'; 
+        });
+      });
+    // Login Modal
+    .modal.fade(id='loginModal', tabindex='-1', role='dialog')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title.text-white Log In
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            form#loginForm
+              .form-group
+                label(for='loginEmail') Email address
+                input#loginEmail.form-control(type='email', placeholder='Enter email')
+              .form-group
+                label(for='loginPassword') Password
+                input#loginPassword.form-control(type='password', placeholder='Password')
+              button.btn.btn-primary(type='submit') Log In
+    // Register Modal
+    .modal.fade(id='registerModal', tabindex='-1', role='dialog')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title.text-white Register
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            form
+              .form-group
+                label(for='registerEmail') Email address
+                input#registerEmail.form-control(type='email', placeholder='Enter email')
+              .form-group
+                label(for='registerClub') Your club
+                select#registerClub.form-control
+                  option(value='') Select your favorite club
+                  option(value='chelsea') Chelsea
+                  option(value='arsenal') Arsenal
+                  option(value='man_united') Manchester United
+                  option(value='liverpool') Liverpool
+                  option(value='man_city') Manchester City
+                  option(value='tottenham') Tottenham Hotspur
+              .form-group
+                label(for='registerPassword') Password
+                input#registerPassword.form-control(type='password', placeholder='Password')
+              .form-group
+                label(for='registerConfirmPassword') Confirm Password
+                input#registerConfirmPassword.form-control(type='password', placeholder='Confirm Password')
+              button.btn.btn-secondary(type='submit') Register

@@ -1,61 +1,50 @@
 extends layout 
 block content
-  .row.banner
-    .col-12
-      h1 Loc8r
-        small &nbsp;Find places to work with wifi near you!
-  .row
-    .col-12.col-md-8
-
-      .card
-        .card-block
-          h4
-            a(href="/location") Starcups
-            small &nbsp;
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star-o
-              i.fa.fa-star-o
-            span.badge.badge-pill.badge-default.float-right 100m
-          p.address 125 High Street, Reading, RG6 1PS
-          .facilities
-            span.badge.badge-warning Hot drinks
-            span.badge.badge-warning Food
-            span.badge.badge-warning Premium wifi
-
-      .card
-        .card-block
-          h4
-            a(href="/location") Cafe Hero
-            small &nbsp;
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star-o
-              i.fa.fa-star-o
-              i.fa.fa-star-o
-            span.badge.badge-pill.badge-default.float-right 200m
-          p.address 125 High Street, Reading, RG6 1PS
-          .facilities
-            span.badge.badge-warning Hot drinks
-            span.badge.badge-warning Food
-            span.badge.badge-warning Premium wifi
-
-      .card
-        .card-block
-          h4
-            a(href="/location") Burger Queen
-            small &nbsp;
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star
-              i.fa.fa-star
-            span.badge.badge-pill.badge-default.float-right 500m
-          p.address 125 High Street, Reading, RG6 1PS
-          .facilities
-            span.badge.badge-warning Food
-            span.badge.badge-warning Premium wifi
-
-    .col-12.col-md-4
-      p.lead Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.
+  .content
+    // Background Video
+    video#bg-video(autoplay, muted, loop)
+      source(src='/images/background.mp4', type='video/mp4')
+      Your browser does not support the video tag.
+    // Main Content
+    .container.mt-5
+      h2.text-center.text-white.mb-4.mb-5 Next games:
+      .row
+        .col-md-4
+          .card.mb-4.p-3.custom-card-bg
+            .card-body.text-center
+              .d-flex.justify-content-between.align-items-center.mb-3
+                img(src='/images/chelsea.png', alt='Chelsea Logo', class='team-logo')
+                span.vs VS
+                img(src='/images/nottingham.png', alt='Nottingham Logo', class='team-logo')
+              h5.card-title.mt-3 Chelsea vs Nottingham
+              p.card-text
+                | Time: 14:00
+                br
+                | Date: 2024-10-06
+              a.btn.btn-primary.mt-3.text-white(data-toggle='modal', data-target='#loginModal') View Event
+        .col-md-4
+          .card.mb-4.p-3.custom-card-bg
+            .card-body.text-center
+              .d-flex.justify-content-between.align-items-center.mb-3
+                img(src='/images/astonvilla.png', alt='Aston Villa Logo', class='team-logo')
+                span.vs VS
+                img(src='/images/man_un.png', alt='Man United Logo', class='team-logo')
+              h5.card-title.mt-3 Aston Villa vs Man Utd
+              p.card-text
+                | Time: 14:00
+                br
+                | Date: 2024-10-06
+              a.btn.btn-primary.mt-3.text-white(data-toggle='modal', data-target='#loginModal') View Event
+        .col-md-4
+          .card.mb-4.p-3.custom-card-bg
+            .card-body.text-center
+              .d-flex.justify-content-between.align-items-center.mb-3
+                img(src='/images/brighton.png', alt='Brighton Logo', class='team-logo')
+                span.vs VS
+                img(src='/images/tottenham.png', alt='Tottenham Logo', class='team-logo')
+              h5.card-title.mt-3 Brighton vs Tottenham
+              p.card-text
+                | Time: 16:30
+                br
+                | Date: 2024-10-06
+              a.btn.btn-primary.mt-3.text-white(data-toggle='modal', data-target='#loginModal') View Event

@@ -9,6 +9,7 @@ const homelist = function(req, res){
     /* GET 'Add review' page */
     const addReview = function(req, res){
     res.render('location-review-form', { title: 'Add review' });
+
     };
     module.exports = {
     homelist,
