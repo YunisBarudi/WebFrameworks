@@ -1,0 +1,53 @@
+extends layout
+block content
+  .content
+    // Background Video
+    video#bg-video(autoplay, muted, loop)
+      source(src='/images/background.mp4', type='video/mp4')
+      Your browser does not support the video tag.
+    // Main Content
+    .container.mt-5
+      // Carousel for Latest Club News
+      .carousel.slide#newsCarousel(data-ride='carousel')
+        .carousel-inner
+          if news && news.length
+            each article, index in news
+              .carousel-item(class=index === 0 ? 'active' : '')
+                img.d-block.w-100(src=article.image, alt=article.alt)
+                .carousel-caption
+                  h5 #{article.title}
+                  p #{article.description}
+          else
+            .carousel-item.active
+              img.d-block.w-100(src='/images/defaultNews.jpg', alt='Default slide')
+              .carousel-caption
+                h5 No news available
+                p Please check back later for the latest updates.
+        a.carousel-control-prev(href='#newsCarousel', role='button', data-slide='prev')
+          span.carousel-control-prev-icon(aria-hidden='true')
+          span.sr-only Previous
+        a.carousel-control-next(href='#newsCarousel', role='button', data-slide='next')
+          span.carousel-control-next-icon(aria-hidden='true')
+          span.sr-only Next
+      // Future Chelsea Games
+      h2.text-center.text-white.mb-4.mb-5.future-games-heading Future Chelsea Games:
+      .row
+        if futureGames && futureGames.length
+          each game in futureGames
+            .col-md-12
+              .future-game-card
+                .card-body.text-center
+                  .d-flex.justify-content-between.align-items-center.mb-3
+                    img(src=game.homeLogo, alt=`${game.homeTeam} Logo`, class='team-logo')
+                    span.vs VS
+                    img(src=game.awayLogo, alt=`${game.awayTeam} Logo`, class='team-logo')
+                  h5.card-title.mt-3 #{game.homeTeam} vs #{game.awayTeam}
+                  p.card-text
+                    | Time: #{game.time}
+                    br
+                    | Date: #{game.date}
+                  a.btn.btn-primary.mt-3.text-white.btn-view-event(data-toggle='modal', data-target='#loginModal') View Event
+                  a.btn.btn-buy-tickets.mt-3.text-white(href='#') Buy Tickets
+        else
+          .col-md-12
+            p.text-center.text-white No upcoming games found.

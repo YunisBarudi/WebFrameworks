@@ -1,20 +1,12 @@
+
 const express = require('express');
 const router = express.Router();
-
+const ctrlLocations = require('../controllers/fanclubs.js');
+const ctrlOthers = require('../controllers/others.js');
 /* Locations pages */
-router.get('/', (req, res) => {
-  res.render('index', { currentPath: req.path });
-});
-router.get('/location', (req, res) => {
-  res.render('location', { currentPath: req.path });
-});
-router.get('/location/review/new', (req, res) => {
-  res.render('review-new', { currentPath: req.path });
-});
-
+router.get('/', ctrlLocations.fanClubHome);
+router.get('/yourfanclub', ctrlLocations.currentFanClubInfo);
+router.get('/yourfanclub/event', ctrlLocations.addReview);
 /* Other pages */
-router.get('/about', (req, res) => {
-  res.render('about', { currentPath: req.path });
-});
-
+router.get('/aboutus', ctrlOthers.about);
 module.exports = router;
