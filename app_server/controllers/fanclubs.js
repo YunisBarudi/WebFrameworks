@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const Game = mongoose.model('Game');
+const ClubNews = mongoose.model('ClubNews');
 /* GET 'home' page */
 const fanClubHome = function(req, res) {
     const games = [
