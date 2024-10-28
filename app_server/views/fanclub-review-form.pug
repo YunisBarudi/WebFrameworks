@@ -1,27 +1,44 @@
 extends layout
+
 block content
+  .container.mt-5
     .row.banner
-        .col-12
-            h1 Review Starcups
+      .col-12
+        h1 Leave a Review
     .row
-        .col-12.col-md-8
-            form(action="/location", method="get", role="form") 
-                .form-group.row
-                    label.col-10.col-sm-2.col-form-label(for="name") Name
-                    .col-12.col-sm-10
-                        input#name.form-control(name="name") 
-                .form-group.row
-                    label.col-10.col-sm-2.col-form-label(for="rating") Rating
-                    .col-12.col-sm-2
-                        select#rating.form-control.input-sm(name="rating") 
-                            option 5 
-                            option 4 
-                            option 3 
-                            option 2 
-                            option 1 
-                .form-group.row
-                    label.col-sm-2.col-form-label(for="review") Review
-                    .col-sm-10
-                        textarea#review.form-control(name="review", rows="5") 
-                button.btn.btn-primary.float-right Add my review 
-            .col-12.col-md-4
+      .col-12.col-md-8
+        form(action="/location", method="post", role="form")
+          .form-group.row
+            label.col-10.col-sm-2.col-form-label(for="name") Name
+            .col-12.col-sm-10
+              input#name.form-control(name="name", type="text", placeholder="Enter your name", required)
+          .form-group.row
+            label.col-10.col-sm-2.col-form-label(for="game") Game
+            .col-12.col-sm-10
+              select#game.form-control(name="game", required)
+                option(value="chelsea_vs_nottingham") Chelsea vs Nottingham
+                option(value="astonvilla_vs_manunited") Aston Villa vs Man Utd
+                option(value="brighton_vs_tottenham") Brighton vs Tottenham
+          .form-group.row
+            label.col-10.col-sm-2.col-form-label(for="player") Player of the Match
+            .col-12.col-sm-10
+              select#player.form-control(name="player", required)
+                option(value="player1") Player 1
+                option(value="player2") Player 2
+                option(value="player3") Player 3
+                option(value="player4") Player 4
+          .form-group.row
+            label.col-10.col-sm-2.col-form-label(for="rating") Rating
+            .col-12.col-sm-2
+              select#rating.form-control(name="rating", required)
+                option(value="5") 5
+                option(value="4") 4
+                option(value="3") 3
+                option(value="2") 2
+                option(value="1") 1
+          .form-group.row
+            label.col-sm-2.col-form-label(for="review") Review
+            .col-sm-10
+              textarea#review.form-control(name="review", rows="5", placeholder="Write your review here", required)
+          button.btn.btn-primary.float-right(type="submit") Add my review
+      .col-12.col-md-4
