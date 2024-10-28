@@ -11,4 +11,9 @@ err=> {console.log(err)}
 catch (e) {
 console.log("could not connect");
 }
-require('./locations');
+require('./clubs')
+require('./games')
+require('./fans')
+require('./clubNews')
+require('./gameReviews')
+;
