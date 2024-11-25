@@ -1,4 +1,7 @@
 require('./app_server/models/db');
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,7 +14,7 @@ var usersRouter = require('./app_server/routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname,'app_server', 'views'));
+app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
@@ -38,5 +41,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+var privateKey = fs.readFileSync('./sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8000);
+httpsServer.listen(443);
 
 module.exports = app;
