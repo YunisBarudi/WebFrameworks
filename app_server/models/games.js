@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const gameSchema = new Schema({
-  gameID: { type: Schema.Types.ObjectId, required: true },
   homeClub: { type: Schema.Types.ObjectId, ref: 'Club', required: true },  // Reference to Club schema
   homeClubLogo: { type: String, required: true },  // Path to logo file
   awayClub: { type: Schema.Types.ObjectId, ref: 'Club', required: true },  // Reference to Club schema
