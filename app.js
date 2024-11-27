@@ -1,4 +1,6 @@
-require('./app_server/models/db');
+require('./app_server/models/db'); // Ensure this is at the top to load models first
+const apiRoutes = require('./app_api/routes/index');
+const appRoutes = require('./app_server/routes/index'); // Add this line to include app routes
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
@@ -7,9 +9,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var indexRouter = require('./app_server/routes/index');
-var usersRouter = require('./app_server/routes/users');
 
 var app = express();
 
@@ -23,8 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Use the API routes
+app.use('/api', apiRoutes);
+
+// Use the app routes
+app.use('/', appRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,13 +43,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-var privateKey = fs.readFileSync('./sslcert/key.pem', 'utf8');
-var certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
-httpServer.listen(8000);
-httpsServer.listen(443);
 
 module.exports = app;
