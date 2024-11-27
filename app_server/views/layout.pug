@@ -23,10 +23,8 @@ html
               a.nav-link(data-toggle='modal', data-target='#loginModal') Log In
             li.nav-item
               a.nav-link(data-toggle='modal', data-target='#registerModal') Register
-    
     .content
       block content
-    
     footer.footer.bg-dark.text-white
       .container
         .row
@@ -52,7 +50,6 @@ html
               |  +1 234 567 890
         .text-center
           | © 2024 Fanclub Connect
-          
     script(src='https://code.jquery.com/jquery-3.6.0.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
@@ -61,6 +58,33 @@ html
         document.getElementById('loginForm').addEventListener('submit', function(event) {
           event.preventDefault(); 
           window.location.href = '/yourfanclub'; 
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = {
+            username: formData.get('username'),
+            club: formData.get('club'),
+            password: formData.get('password'),
+            email: formData.get('email')
+          };
+
+          fetch('/api/fans', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            window.location.href = '/';
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
         });
       });
     // Login Modal
@@ -89,24 +113,24 @@ html
             button.close(type='button', data-dismiss='modal', aria-label='Close')
               span(aria-hidden='true') &times;
           .modal-body
-            form
+            form#registerForm
               .form-group
                 label(for='registerEmail') Email address
-                input#registerEmail.form-control(type='email', placeholder='Enter email')
+                input#registerEmail.form-control(name='email', type='email', placeholder='Enter email')
+              .form-group
+                label(for='registerUsername') Username
+                input#registerUsername.form-control(name='username', type='text', placeholder='Enter username')
               .form-group
                 label(for='registerClub') Your club
-                select#registerClub.form-control
+                select#registerClub.form-control(name='club')
                   option(value='') Select your favorite club
-                  option(value='chelsea') Chelsea
-                  option(value='arsenal') Arsenal
-                  option(value='man_united') Manchester United
-                  option(value='liverpool') Liverpool
-                  option(value='man_city') Manchester City
-                  option(value='tottenham') Tottenham Hotspur
+                  if clubs
+                    each club in clubs
+                      option(value=club._id) #{club.name}
               .form-group
                 label(for='registerPassword') Password
-                input#registerPassword.form-control(type='password', placeholder='Password')
+                input#registerPassword.form-control(name='password', type='password', placeholder='Password')
               .form-group
                 label(for='registerConfirmPassword') Confirm Password
-                input#registerConfirmPassword.form-control(type='password', placeholder='Confirm Password')
+                input#registerConfirmPassword.form-control(name='confirmPassword', type='password', placeholder='Confirm Password')
               button.btn.btn-secondary(type='submit') Register

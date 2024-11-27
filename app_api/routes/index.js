@@ -14,6 +14,11 @@ router
   .put(ctrlFanclubs.gamesUpdateOne)
   .delete(ctrlFanclubs.gamesDeleteOne);
 
+// Clubs
+router
+  .route('/clubs')
+  .get(ctrlFanclubs.clubsList);
+
 // Club News
 router
   .route('/news')
@@ -25,5 +30,10 @@ router
   .get(ctrlFanclubs.newsReadOne)
   .put(ctrlFanclubs.newsUpdateOne)
   .delete(ctrlFanclubs.newsDeleteOne);
+
+// Fans
+router
+  .route('/fans')
+  .post(ctrlFanclubs.fansCreate);
 
 module.exports = router;

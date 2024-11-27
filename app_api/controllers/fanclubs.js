@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Game = mongoose.model('Game');
 const ClubNews = mongoose.model('ClubNews');
+const Club = mongoose.model('Club');
+const Fan = mongoose.model('Fan');
 
 // List all games
 const gamesList = async function(req, res) {
@@ -87,6 +89,17 @@ const gamesDeleteOne = async function(req, res) {
   }
 };
 
+// List all clubs
+const clubsList = async function(req, res) {
+  try {
+    const clubs = await Club.find({});
+    res.status(200).json(clubs);
+  } catch (err) {
+    console.error("Error fetching clubs:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // List all club news
 const newsList = async function(req, res) {
   try {
@@ -166,15 +179,33 @@ const newsDeleteOne = async function(req, res) {
   }
 };
 
+// Create a new fan
+const fansCreate = async function(req, res) {
+  try {
+    const fan = await Fan.create({
+      username: req.body.username,
+      club: req.body.club,
+      password: req.body.password,
+      email: req.body.email
+    });
+    res.status(201).json(fan);
+  } catch (err) {
+    console.error("Error creating fan:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   gamesList,
   gamesCreate,
   gamesReadOne,
   gamesUpdateOne,
   gamesDeleteOne,
+  clubsList,
   newsList,
   newsCreate,
   newsReadOne,
   newsUpdateOne,
-  newsDeleteOne
+  newsDeleteOne,
+  fansCreate
 };
