@@ -18,7 +18,8 @@ const about = function(req, res) {
             community: '/images/community.jpg',
             stayUpdated: '/images/updated.jpg',
             events: '/images/events.jpg'
-        }
+        },
+        user: req.user
     };
 
     res.render('aboutus', aboutContent);

@@ -13,6 +13,9 @@ router
   .get(ctrlFanclubs.gamesReadOne)
   .put(ctrlFanclubs.gamesUpdateOne)
   .delete(ctrlFanclubs.gamesDeleteOne);
+router
+  .route('/games/club/:clubId')
+  .get(ctrlFanclubs.gamesListByClub);
 
 // Clubs
 router
@@ -30,6 +33,9 @@ router
   .get(ctrlFanclubs.newsReadOne)
   .put(ctrlFanclubs.newsUpdateOne)
   .delete(ctrlFanclubs.newsDeleteOne);
+router
+  .route('/news/club/:clubId')
+  .get(ctrlFanclubs.newsListByClub);
 
 // Fans
 router

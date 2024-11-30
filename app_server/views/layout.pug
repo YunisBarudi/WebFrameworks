@@ -21,7 +21,7 @@ html
           ul.navbar-nav.ml-auto
             if user
               li.nav-item
-                a.nav-link Welcome, #{user.username}
+                a.nav-link(href='/yourfanclub') Welcome, #{user.username}
               li.nav-item
                 a.nav-link(href='/api/logout') Logout
             else

@@ -36,6 +36,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Log user information from session
+app.use((req, res, next) => {
+  if (req.session && req.session.user) {
+    console.log('User information from session:', req.session.user);
+  } else {
+    console.log('No user information in session');
+  }
+  next();
+});
+
 // Use the API routes
 app.use('/api', apiRoutes);
 
@@ -61,5 +71,12 @@ app.use(function(err, req, res, next) {
     res.render('error');
   }
 });
-
+var privateKey = fs.readFileSync('./sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8000);
+httpsServer.listen(443);
+module.exports = app;
 module.exports = app;

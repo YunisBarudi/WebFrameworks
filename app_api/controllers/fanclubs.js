@@ -247,6 +247,38 @@ const logout = function(req, res) {
     res.redirect('/');
   });
 };
+// List news by club ID
+
+const newsListByClub = async function(req, res) {
+  try {
+    const clubId = new mongoose.Types.ObjectId(req.params.clubId);
+    const news = await ClubNews.find({ clubId: clubId });
+    if (!news.length) {
+      res.status(404).json({ "message": "No news found for this club" });
+    } else {
+      res.status(200).json(news);
+    }
+  } catch (err) {
+    console.error("Error fetching news by club:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// List games by club ID
+const gamesListByClub = async function(req, res) {
+  try {
+    const clubId = new mongoose.Types.ObjectId(req.params.clubId);
+    const games = await Game.find({ $or: [{ homeClub: clubId }, { awayClub: clubId }] });
+    if (!games.length) {
+      res.status(404).json({ "message": "No games found for this club" });
+    } else {
+      res.status(200).json(games);
+    }
+  } catch (err) {
+    console.error("Error fetching games by club:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   gamesList,
@@ -260,6 +292,8 @@ module.exports = {
   newsReadOne,
   newsUpdateOne,
   newsDeleteOne,
+  newsListByClub,
+  gamesListByClub,
   fansCreate,
   login,
   logout

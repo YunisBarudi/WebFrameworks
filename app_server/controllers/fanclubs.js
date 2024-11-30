@@ -42,8 +42,9 @@ const _renderEventsPage = function(req, res, futureGames, news) {
 };
 
 const currentFanClubInfo = function(req, res) {
-  const gamesUrl = `${apiOptions.server}/api/games`;
-  const newsUrl = `${apiOptions.server}/api/news`;
+  const clubId = req.session.user.club;
+  const gamesUrl = `${apiOptions.server}/api/games/club/${clubId}`;
+  const newsUrl = `${apiOptions.server}/api/news/club/${clubId}`;
 
   Promise.all([axios.get(gamesUrl), axios.get(newsUrl)])
     .then(([gamesResponse, newsResponse]) => {
