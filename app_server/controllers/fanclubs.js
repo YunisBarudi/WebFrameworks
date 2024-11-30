@@ -10,7 +10,8 @@ const _renderHomepage = function(req, res, games, clubs) {
   res.render('fanclub-home', {
     title: 'FanClub Connects',
     games: games,
-    clubs: clubs || []
+    clubs: clubs || [],
+    user: req.user // Pass the user to the layout
   });
 };
 
@@ -35,7 +36,8 @@ const _renderEventsPage = function(req, res, futureGames, news) {
   res.render('fanclub-events', {
     title: 'Your Fanclub Information',
     futureGames,
-    news
+    news,
+    user: req.user // Pass the user to the layout
   });
 };
 
@@ -57,7 +59,7 @@ const currentFanClubInfo = function(req, res) {
 };
 
 const addReview = function(req, res) {
-  res.render('fanclub-review-form', { title: 'Add review' });
+  res.render('fanclub-review-form', { title: 'Add review', user: req.user }); // Pass the user to the layout
 };
 
 module.exports = {

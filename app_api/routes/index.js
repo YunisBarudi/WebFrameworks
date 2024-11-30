@@ -36,4 +36,14 @@ router
   .route('/fans')
   .post(ctrlFanclubs.fansCreate);
 
+// Login
+router
+  .route('/login')
+  .post(ctrlFanclubs.login);
+
+// Logout
+router
+  .route('/logout')
+  .get(ctrlFanclubs.logout);
+
 module.exports = router;

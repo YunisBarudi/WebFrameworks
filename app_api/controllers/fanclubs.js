@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const Game = mongoose.model('Game');
 const ClubNews = mongoose.model('ClubNews');
 const Club = mongoose.model('Club');
@@ -182,17 +185,67 @@ const newsDeleteOne = async function(req, res) {
 // Create a new fan
 const fansCreate = async function(req, res) {
   try {
+    console.log('Received data:', req.body); // Log received data
+
+    // Check if the club exists
+    let club = await Club.findById(req.body.clubID);
+    if (!club) {
+      // Create the club if it doesn't exist
+      club = await Club.create({
+        _id: req.body.clubID,
+        name: req.body.clubName,
+        logotype: '', // Add appropriate logotype if needed
+        points: 0 // Add appropriate points if needed
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const fan = await Fan.create({
       username: req.body.username,
-      club: req.body.club,
-      password: req.body.password,
+      club: club._id,
+      clubName: req.body.clubName,
+      password: hashedPassword,
       email: req.body.email
     });
+    console.log('Created fan:', fan); // Log created fan
     res.status(201).json(fan);
   } catch (err) {
     console.error("Error creating fan:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+// Login a fan
+const login = function(req, res, next) {
+  console.log('Login route called');
+  passport.authenticate('local', function(err, fan, info) {
+    if (err) {
+      console.log('Error in passport authenticate:', err);
+      return next(err);
+    }
+    if (!fan) {
+      console.log('Authentication failed:', info.message);
+      return res.status(401).json({ message: info.message });
+    }
+    req.logIn(fan, function(err) {
+      if (err) {
+        console.log('Error in req.logIn:', err);
+        return next(err);
+      }
+      console.log('Authentication successful');
+      req.session.user = fan; // Store user in session
+      return res.status(200).json({ message: 'Authentication successful', user: fan });
+    });
+  })(req, res, next);
+};
+
+// Logout a fan
+const logout = function(req, res) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.session.destroy(); // Destroy session
+    res.redirect('/');
+  });
 };
 
 module.exports = {
@@ -207,5 +260,7 @@ module.exports = {
   newsReadOne,
   newsUpdateOne,
   newsDeleteOne,
-  fansCreate
+  fansCreate,
+  login,
+  logout
 };

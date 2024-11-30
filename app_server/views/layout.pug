@@ -19,10 +19,16 @@ html
             li.nav-item
               a.nav-link(href='/aboutus/') About
           ul.navbar-nav.ml-auto
-            li.nav-item.pd-2
-              a.nav-link(data-toggle='modal', data-target='#loginModal') Log In
-            li.nav-item
-              a.nav-link(data-toggle='modal', data-target='#registerModal') Register
+            if user
+              li.nav-item
+                a.nav-link Welcome, #{user.username}
+              li.nav-item
+                a.nav-link(href='/api/logout') Logout
+            else
+              li.nav-item.pd-2
+                a.nav-link(data-toggle='modal', data-target='#loginModal') Log In
+              li.nav-item
+                a.nav-link(data-toggle='modal', data-target='#registerModal') Register
     .content
       block content
     footer.footer.bg-dark.text-white
@@ -56,19 +62,46 @@ html
     script.
       document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-          event.preventDefault(); 
-          window.location.href = '/yourfanclub'; 
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = {
+            email: formData.get('email'),
+            password: formData.get('password')
+          };
+
+          fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.user) {
+              window.location.href = '/yourfanclub';
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
         });
 
         document.getElementById('registerForm').addEventListener('submit', function(event) {
           event.preventDefault();
           const formData = new FormData(event.target);
+          const selectedClub = document.getElementById('registerClub').selectedOptions[0];
           const data = {
             username: formData.get('username'),
-            club: formData.get('club'),
+            clubID: selectedClub.value,
+            clubName: selectedClub.text,
             password: formData.get('password'),
             email: formData.get('email')
           };
+
+          console.log('Submitting data:', data); // Log the data being submitted
 
           fetch('/api/fans', {
             method: 'POST',
@@ -99,10 +132,10 @@ html
             form#loginForm
               .form-group
                 label(for='loginEmail') Email address
-                input#loginEmail.form-control(type='email', placeholder='Enter email')
+                input#loginEmail.form-control(name='email', type='email', placeholder='Enter email')
               .form-group
                 label(for='loginPassword') Password
-                input#loginPassword.form-control(type='password', placeholder='Password')
+                input#loginPassword.form-control(name='password', type='password', placeholder='Password')
               button.btn.btn-primary(type='submit') Log In
     // Register Modal
     .modal.fade(id='registerModal', tabindex='-1', role='dialog')
