@@ -51,5 +51,9 @@ router
 router
   .route('/logout')
   .get(ctrlFanclubs.logout);
+// Reviews
+router
+  .route('/reviews')
+  .post(ctrlFanclubs.reviewsCreate);
 
 module.exports = router;
