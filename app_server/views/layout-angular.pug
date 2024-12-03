@@ -1,0 +1,93 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse
+      .container
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarMain')
+          span.navbar-toggler-icon
+        a.navbar-brand(href='/') Fanclub
+        #navbarMain.navbar-collapse.collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/') Home
+            li.nav-item
+              a.nav-link(href='/aboutus/') About
+          ul.navbar-nav.ml-auto
+            if user
+              li.nav-item
+                a.nav-link(href='/yourfanclub') Welcome, #{user.username}
+              li.nav-item
+                a.nav-link(href='/api/logout') Logout
+            else
+              li.nav-item.pd-2
+                a.nav-link(data-toggle='modal', data-target='#loginModal') Log In
+              li.nav-item
+                a.nav-link(data-toggle='modal', data-target='#registerModal') Register
+    .content
+      // Include Angular application
+      #angular-app
+        include ../../public/dist/admin-panel/browser/index.html
+    footer.footer.bg-dark.text-white
+      .container
+        .row
+          .col-md-4
+            h5 Fan Club Connect
+            p This website is a fan club for fans of the band Fanclub. We are not affiliated with the band in any way.
+          .col-md-4
+            h5 Our Social Media
+            ul.list-unstyled
+              li
+                a.i.fa.fa-facebook(href='#')
+              li
+                a.i.fa.fa-linkedin(href='#')
+              li
+                a.i.fa.fa-instagram(href='#')
+          .col-md-4
+            h5 Contact
+            p
+              i.fa.fa-envelope
+              |  email@example.com
+            p
+              i.fa.fa-phone
+              |  +1 234 567 890
+    .text-center
+      | © 2024 Fanclub Connect
+    script(src='https://code.jquery.com/jquery-3.6.0.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = {
+            email: formData.get('email'),
+            password: formData.get('password')
+          };
+
+          fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.user) {
+              window.location.href = '/yourfanclub';
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        });
+      });

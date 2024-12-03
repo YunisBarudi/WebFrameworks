@@ -7,7 +7,8 @@ const fanSchema = new Schema({
   club: { type: Schema.Types.ObjectId, ref: 'Club', required: true },  // Reference to Club schema (favorite club)
   clubName: { type: String, required: true },
   password: { type: String, required: true },  // Make sure to hash the password before saving
-  email: { type: String, required: true, unique: true }
+  email: { type: String, required: true, unique: true },
+  isAdmin: { type: Boolean, default: false, select: true }  // Ensure isAdmin is included
 });
 
 // Hash the password before saving the fan

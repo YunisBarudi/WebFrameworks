@@ -80,7 +80,7 @@ const gamesUpdateOne = async function(req, res) {
 // Delete a game by ID
 const gamesDeleteOne = async function(req, res) {
   try {
-    const game = await Game.findByIdAndRemove(req.params.gameid);
+    const game = await Game.findByIdAndDelete(req.params.gameid);
     if (!game) {
       res.status(404).json({ "message": "gameid not found" });
     } else {
@@ -91,6 +91,7 @@ const gamesDeleteOne = async function(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 // List all clubs
 const clubsList = async function(req, res) {
@@ -195,7 +196,7 @@ const fansCreate = async function(req, res) {
         _id: req.body.clubID,
         name: req.body.clubName,
         logotype: '', // Add appropriate logotype if needed
-        points: 0 // Add appropriate points if needed
+        points: 0// Add appropriate points if needed
       });
     }
 
@@ -205,7 +206,8 @@ const fansCreate = async function(req, res) {
       club: club._id,
       clubName: req.body.clubName,
       password: hashedPassword,
-      email: req.body.email
+      email: req.body.email,
+      isAdmin: false
     });
     console.log('Created fan:', fan); // Log created fan
     res.status(201).json(fan);
