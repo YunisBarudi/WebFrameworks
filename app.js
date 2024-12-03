@@ -1,4 +1,5 @@
 require('./app_server/models/db'); // Ensure this is at the top to load models first
+const fs = require('fs');
 const apiRoutes = require('./app_api/routes/index');
 const appRoutes = require('./app_server/routes/index'); 
 const angularRoutes = require('./app_server/routes/angularRoutes');

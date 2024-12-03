@@ -48,3 +48,34 @@ block content
         else
           .col-md-12
             p.text-center.text-white No upcoming games found.
+
+      // Log the user object
+      p#user-data.text-center.text-white(style='display:none;') #{JSON.stringify(user)}
+
+  // Add a script to check the isAdmin property
+  script.
+    document.addEventListener('DOMContentLoaded', function() {
+      const pElement = document.getElementById('user-data');
+      console.log('User data element:', pElement);
+      const userJson = pElement.textContent;
+      console.log('User JSON:', userJson);
+      try {
+        const myUser = JSON.parse(userJson);
+        console.log('User object:', myUser);
+        console.log('Type of user:', typeof myUser);
+        if (myUser.isAdmin) {
+          console.log("User is an admin");
+          const container = document.querySelector('.container.mt-5');
+          const buttonHtml = `
+            <div class="text-center mt-4">
+              <a class="btn btn-primary" href="/admin">Manage User's Games</a>
+            </div>
+          `;
+          container.insertAdjacentHTML('beforeend', buttonHtml);
+        } else {
+          console.log("User is not an admin");
+        }
+      } catch (error) {
+        console.error('Error parsing user JSON:', error);
+      }
+    });

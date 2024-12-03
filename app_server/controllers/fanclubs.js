@@ -33,6 +33,8 @@ const fanClubHome = function(req, res) {
 };
 
 const _renderEventsPage = function(req, res, futureGames, news) {
+  console.log('User object:', req.user); // Log the user object
+  console.log(typeof user);
   res.render('fanclub-events', {
     title: 'Your Fanclub Information',
     futureGames,
@@ -58,7 +60,6 @@ const currentFanClubInfo = function(req, res) {
       });
     });
 };
-
 const addReview = function(req, res) {
   res.render('fanclub-review-form', { title: 'Add review', user: req.user }); // Pass the user to the layout
 };
