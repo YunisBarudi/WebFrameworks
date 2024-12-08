@@ -3,7 +3,7 @@ const apiOptions = {
   server: 'http://localhost:3000'
 };
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = 'https://your-production-url.com';
+  apiOptions.server = 'https://helloexpressyunisbarudi.onrender.com';
 };
 
 const _renderHomepage = function(req, res, games, clubs) {
