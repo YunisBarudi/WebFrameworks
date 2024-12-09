@@ -281,29 +281,6 @@ const gamesListByClub = async function(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const reviewsCreate = async function(req, res) {
-  try {
-    const game = '674b18dfb734478769b880ce';
-    const fan = '674b019c45fa427c8bbde1e1';
-
-    if (!game || !fan) {
-      return res.status(404).json({ message: 'Game or Fan not found' });
-    }
-
-    const review = await GameReview.create({
-      gameID: req.body.gameID,
-      fanid: req.body.fanID,
-      comment: req.body.comment,
-      rating: req.body.rating,
-      date: req.body.date || Date.now() // Use provided date or current date
-    });
-
-    res.status(201).json(review);
-  } catch (err) {
-    console.error("Error creating review:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
 
 module.exports = {
   gamesList,
@@ -321,6 +298,5 @@ module.exports = {
   gamesListByClub,
   fansCreate,
   login,
-  logout,
-  reviewsCreate
+  logout
 };

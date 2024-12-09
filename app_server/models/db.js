@@ -54,4 +54,3 @@ require('./clubs');
 require('./games');
 require('./fans');
 require('./clubNews');
-require('./gameReviews');
